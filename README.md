@@ -3,8 +3,8 @@
 #Function
 Assault Cube
 ESP👁
--ESP Box
--ESP Name
--ESP Information
+ESP Box
+ESP Name
+ESP Information
 Other
--Crosshair
+Crosshair
