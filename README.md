@@ -12,5 +12,6 @@ ESP👁
 
 -ESP Information
 
-Other
-Crosshair
+Other⚙
+
+-Crosshair
