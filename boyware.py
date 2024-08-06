@@ -1,23 +1,79 @@
+import customtkinter as ctk
 import tkinter as tk
+from PIL import Image, ImageTk
+import os
+import threading 
 import pyMeow as pm
 
-class Loader(tk.Tk):
-    def __init__(self):
-        super().__init__()
-        self.title("BoyWare Loader")
-        self.geometry("300x150")
-        self.configure(bg="black")  
-        self.resizable(False, False)
+def load_background_image():
+    
+    if getattr(sys, 'frozen', False):
+       
+        base_path = sys._MEIPASS
+    else:
+       
+        base_path = os.path.dirname(os.path.abspath(__file__))
 
-        label = tk.Label(self, text="BoyWare", font=("Arial", 24), fg="red", bg="black")
-        label.pack(pady=20)
+    image_path = os.path.join(base_path, "background.jpg")
+    
+    bg_image = Image.open(image_path)
+    bg_image = bg_image.resize((640, 400), Image.LANCZOS)
+    bg_photo = ImageTk.PhotoImage(bg_image)
+    
+    return bg_photo
+app = ctk.CTk()
+app.geometry("640x400")
+app.title("BoyWare Loader")
+app.resizable(False, False)
 
-        start_button = tk.Button(self, text="Assault Cube", command=self.start_main, bg="white", fg="black")
-        start_button.pack(pady=10)
+bg_photo = load_background_image()
 
-    def start_main(self):
-        self.destroy()  
-        main()  
+canvas = tk.Canvas(app, width=640, height=400)
+canvas.pack(fill="both", expand=True)
+canvas.create_image(0, 0, anchor="nw", image=bg_photo)
+
+def create_widgets():
+    label_title = ctk.CTkLabel(app, text="BoyWare", font=("Arial", 24), bg_color="#404040", text_color="white")
+    label_title.place(relx=0.5, rely=0.4, anchor="center")
+    
+    label_subtitle = ctk.CTkLabel(app, text="Select Game:", font=("Arial", 16), bg_color="#404040", text_color="white")
+    label_subtitle.place(relx=0.5, rely=0.5, anchor="center")
+    
+    button_game = ctk.CTkButton(app, text="Assault Cube", width=200, bg_color="#404040", fg_color="#BF0E0C", command=assault_cube)
+    button_game.place(relx=0.5, rely=0.6, anchor="center")
+
+def assault_cube():
+    new_window = ctk.CTkToplevel(app)
+    new_window.geometry("640x400")
+    new_window.title("AssaultCube")
+    new_window.resizable(False, False)
+    
+    new_bg_photo = load_background_image()
+    
+    new_canvas = tk.Canvas(new_window, width=640, height=400)
+    new_canvas.pack(fill="both", expand=True)
+    new_canvas.create_image(0, 0, anchor="nw", image=new_bg_photo)
+    
+    features_label = ctk.CTkLabel(new_window, text="Features:", font=("Arial", 24), bg_color="#404040", text_color="white")
+    features_label.place(relx=0.5, rely=0.25, anchor="center")
+    
+    features_list = ["Visuals", "- ESP Box", "- ESP Name", "- ESP Information", "- Crosshair"]
+    for i, feature in enumerate(features_list):
+        list_label = ctk.CTkLabel(new_window, text=feature, font=("Arial", 16), bg_color="#404040", text_color="white")
+        list_label.place(relx=0.5, rely=0.35 + i * 0.1, anchor="center")
+
+    status_label = ctk.CTkLabel(new_window, text="Status: Undetected", font=("Arial", 16), bg_color="#404040", text_color="white")
+    status_label.place(relx=0.5, rely=0.8, anchor="center")
+
+    inject_button = ctk.CTkButton(new_window, text="Inject", width=200, bg_color="#404040", fg_color="#BF0E0C", command=inject_code)
+    inject_button.place(relx=0.5, rely=0.9, anchor="center")
+
+    new_window.bg_photo = new_bg_photo
+
+def inject_code():
+    # Запуск коду в окремому потоці, щоб не блокувати GUI
+    thread = threading.Thread(target=main)
+    thread.start()
 
 def main():
     proc = pm.open_process("ac_client.exe")
@@ -190,6 +246,5 @@ def main():
 
         pm.end_drawing()
 
-if __name__ == "__main__":
-    loader = Loader()
-    loader.mainloop()
+create_widgets()
+app.mainloop()
