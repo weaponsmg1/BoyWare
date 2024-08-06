@@ -28,6 +28,9 @@ Other ⚙
 
 # Screenshots
 
-![scr1](https://github.com/user-attachments/assets/480e0f2d-fb6a-456f-b580-15ff5b035f24)
+![scr1](https://github.com/user-attachments/assets/1a3fb2da-cdc8-46f4-9210-ca2c1e480de9)
 
-![scr2](https://github.com/user-attachments/assets/204fae7e-c715-4ca4-81d3-82a5b9cd790f)
+![scr2](https://github.com/user-attachments/assets/d3e140c2-b819-4484-a874-78b03cf57c6c)
+
+![scr3](https://github.com/user-attachments/assets/423d7e8a-6917-4e4e-bafb-2a708426b11e)
+
